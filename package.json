@@ -5,7 +5,8 @@
     "scripts": {
         "test": "karma start",
         "start": "http-server -a localhost -p 8000 -c-1 ./",
-        "bundle": "webpack"
+        "bundle": "webpack",
+        "gulp": "gulp"
     },
     "author": "Akshay Magapu",
     "license": "ISC",
@@ -21,6 +22,7 @@
         "connect": "^3.6.3",
         "connect-livereload": "^0.6.0",
         "connect-modrewrite": "^0.10.1",
+        "gulp-cli": "1.4.0",
         "gulp": "^3.9.1",
         "gulp-concat": "^2.6.1",
         "gulp-load-plugins": "^1.5.0",
