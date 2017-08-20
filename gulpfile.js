@@ -11,6 +11,9 @@ var Server = require('karma').Server;
 var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
 var netlify = require('gulp-netlify');
+var runSequence = require('run-sequence');
+var minifyCSS = require('gulp-minify-css');
+var clean = require('gulp-clean');
 
 var DEFAULT = {
     appDir: 'app',
@@ -103,4 +106,36 @@ gulp.task('vendor', function() {
     return merge(vendorJs)
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest(path.DEST_BUILD));
+});
+
+gulp.task('clean', function() {
+    gulp.src('dists/*')
+        .pipe(clean({ force: true }));
+});
+
+gulp.task('minify-css', function() {
+    var opts = { comments: true, spare: true };
+    gulp.src(['assets/**/*.css'])
+        .pipe(minifyCSS(opts))
+        .pipe(gulp.dest('dists/'))
+});
+
+gulp.task('minify-js', function() {
+    gulp.src(path.ALL) // gulp looks for all source files under specified path
+        .pipe(sourcemaps.init()) // creates a source map which would be very helpful for debugging by maintaining the actual source code structure
+        .pipe(stream(webpackConfig)) // blend in the webpack config into the source files
+        .pipe(uglify()) // minifies the code for better compression    
+        .pipe(gulp.dest('dists/'))
+
+});
+
+gulp.task('copy-html-files', function() {
+    gulp.src('app/**/*.html')
+        .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('build', function() {
+    runSequence(
+        ['clean'], ['minify-css', 'minify-js', 'copy-html-files']
+    );
 });
