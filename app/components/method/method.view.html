@@ -1,0 +1,23 @@
+<div class="container" ng-controller="methodController">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h1 class="page-header method-header"><small>{{methodModel.name}}</small></h1>
+            <p class="lead method-description">{{methodModel.description}}</p>
+            <span>{{methodModel.args}}</span>
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <textarea ng-model="disableSend" ng-model="textInput" class="form-control" id="myTextarea" placeholder="Enter input" rows="5"></textarea>
+        </div>
+        <input type="button" id="submitbutton" ng-click="callMethod()" value="Send" ng-disabled="disableSend == null" />
+    </div>
+    <div id="dd">
+        <div id="div1" ng-if="outputResult">
+            <h4>Text Output: {{outputResult}}</h4>
+        </div>
+        <div id="div2">
+            <div id="chartContainer" style="height: 200px;width:500px;"></div>
+        </div>
+    </div>
+</div>
