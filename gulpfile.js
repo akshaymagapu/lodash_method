@@ -23,24 +23,17 @@ var jscs = require('gulp-jscs');
 var del = require('del');
 var ngAnnotate = require('gulp-ng-annotate');
 
-var DEFAULT = {
-    appDir: 'app',
-    env: process.env.NODE_ENV || 'development'
-};
 
 var dist = {
     path: 'dist/',
     images: 'images/',
     fonts: 'fonts/'
 }
-DEFAULT.outputDir = "dist";
+
 var path = {
     vendors: [
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/angular/angular.min.js",
-        "https://code.highcharts.com/highcharts.js",
-        "https://code.highcharts.com/highcharts-3d.js",
-        "https://code.highcharts.com/modules/exporting.js",
         'assets/js/myLodash.js',
         "node_modules/angular-route/angular-route.js",
         "node_modules/bootstrap/dist/css/bootstrap.min.css"
@@ -48,14 +41,15 @@ var path = {
     HTML: 'index.html',
     ALL: ['app/app.js'],
     views: {
-        main: DEFAULT.appDir + '/index.html',
-        files: [DEFAULT.appDir + '/components/**/*.html']
+        main: 'app' + '/index.html',
+        files: ['app' + '/components/**/*.html']
     },
     MINIFIED_OUT: 'build.min.js',
     DEST_SRC: 'dist/src',
     DEST_BUILD: 'dist/build',
     DEST: 'dist'
 };
+
 gulp.task('webpack', [], function() {
     return gulp.src(path.ALL) // gulp looks for all source files under specified path
         .pipe(addStream.obj(prepareTemplates()))
@@ -101,6 +95,7 @@ gulp.task("webpack-dev-server", function(callback) {
 gulp.task('watch', function() {
     gulp.watch(path.ALL, ['webpack']);
 });
+
 gulp.task('deploy', function() {
         // modify some webpack config options
         var myConfig = Object.create(webpackConfig);
@@ -172,7 +167,7 @@ gulp.task('copy-html-files', function() {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('build', function() {
+gulp.task('bld', function() {
     runSequence(
         ['clean'], ['minify-css', 'minify-js', 'copy-html-files']
     );
@@ -208,4 +203,4 @@ gulp.task('minifyjs', ['useref', 'templatecache'], function() {
         .pipe(gulp.dest('dist/js/'));
 });
 
-gulp.task('bld', ['minifyjs'], function() {});
+gulp.task('build', ['minifyjs'], function() {});

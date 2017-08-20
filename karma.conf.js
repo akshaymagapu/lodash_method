@@ -17,20 +17,14 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             'https://code.jquery.com/jquery-1.11.2.min.js',
-            './node_modules/angular/angular.js',
-            './node_modules/angular-route/angular-route.js',
-            './node_modules/angular-cookies/angular-cookies.js',
-            './node_modules/angular-md5/angular-md5.js',
-            './node_modules/angularjs-toaster/toaster.js',
-            './node_modules/angulargrid/angulargrid.js',
-            './node_modules/angular-mocks/angular-mocks.js',
-            './assets/js/myLodash.js',
+            'node_modules/angular/angular.js',
+            'node_modules/angular-route/angular-route.js',
+            'node_modules/angular-mocks/angular-mocks.js',
+            'assets/js/myLodash.js',
             'https://code.highcharts.com/highcharts.js',
             'https://code.highcharts.com/highcharts-3d.js',
-            './app/**/*.js'
+            'app/**/*.js'
         ],
-
-
 
         // list of files to exclude
         exclude: [],

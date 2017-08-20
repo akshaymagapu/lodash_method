@@ -38,24 +38,39 @@ describe('method', function() {
     it('should call a method based on input', function() {
         scope.methodModel.name = 'Sample';
         scope.collection = [1, 2, 3];
+        spyOn(document, "getElementById").and.callFake(function() {
+            return {
+                value: '[1, 2, 3]'
+            }
+        });
         spyOn(scope, 'checkValue').and.stub();
         spyOn(scope, 'showChart').and.stub();
         scope.callMethod();
-        expect(scope.outputResult.toString().length).toBe(1);
+        expect(scope.checkValue).toHaveBeenCalled();
     });
 
     it('should call a sample method based on input and expect output', function() {
         scope.methodModel.name = 'Sample';
         scope.collection = [1, 2, 3];
+        spyOn(document, "getElementById").and.callFake(function() {
+            return {
+                value: '[1, 2, 3]'
+            }
+        });
         spyOn(scope, 'checkValue').and.stub();
         spyOn(scope, 'showChart').and.stub();
         scope.callMethod();
-        expect(scope.outputResult.toString().length).toBe(1);
+        expect(scope.checkValue).toHaveBeenCalled();
     });
 
     it('should call a size method based on input and expect output', function() {
         scope.methodModel.name = 'Size';
         scope.collection = [1, 2, 3];
+        spyOn(document, "getElementById").and.callFake(function() {
+            return {
+                value: '[1, 2, 3]'
+            }
+        });
         spyOn(scope, 'showChart').and.stub();
         scope.callMethod();
         expect(scope.outputResult).toBe(3);
