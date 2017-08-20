@@ -29,7 +29,7 @@
      function sampleSize(input, number) {
          let sampleSizeData = [];
          if (input !== undefined && input !== null) {
-             for (let i = 0; i <= number; i++) {
+             for (let i = 1; i <= number; i++) {
                  let isArray = Array.isArray(input) ? arrayRandom(input) : objectRandom(input);
                  sampleSizeData.push(isArray);
              }

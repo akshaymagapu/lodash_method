@@ -16,7 +16,7 @@ describe('header', function() {
     });
 
     it('should check options length', function() {
-        expect(scope.options.length).toBe(4);
+        expect(scope.options.length).toBe(5);
     });
 
 });

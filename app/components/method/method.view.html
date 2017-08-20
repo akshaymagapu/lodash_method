@@ -7,10 +7,23 @@
         </div>
     </div>
     <div>
-        <div class="form-group">
-            <textarea ng-model="disableSend" ng-model="textInput" class="form-control" id="myTextarea" placeholder="Enter input" rows="5"></textarea>
+        <div ng-if="!(methodModel.name==='Includes' || methodModel.name==='Samplesize')" class="form-group">
+            <textarea class="form-control" id="myTextarea" placeholder="Enter input" rows="5"></textarea>
         </div>
-        <input type="button" id="submitbutton" ng-click="callMethod()" value="Send" ng-disabled="disableSend == null" />
+        <div ng-if="(methodModel.name==='Includes' || methodModel.name==='Samplesize')" class="form-group" id="customInputBox">
+            <label for="inputsm">collection</label>
+            <input class="form-control input-sm" id="collection" type="text">
+            <label for="inputsm">value</label>
+            <input class="form-control input-sm" id="value" type="text">
+            <div ng-if="(methodModel.name==='Includes')">
+                <label for="inputsm">index</label>
+                <input class="form-control input-sm" id="index" type="text">
+            </div>
+        </div>
+        <div ng-if="invalidInput" id="invalidInput">
+            <h4>Invalid input</h4>
+        </div>
+        <input type="button" id="submitbutton" ng-click="callMethod()" value="Send" />
     </div>
     <div id="dd">
         <div id="div1" ng-if="outputResult">

@@ -324,6 +324,11 @@ html {
     font-family: Tahoma, sans-serif;
 }
 
+#customInputBox {
+    width: 750px;
+    margin-left: 18%;
+}
+
 #submitbutton {
     margin-left: 50%;
     display: block;
@@ -348,4 +353,9 @@ html {
 
 #div2 {
     left: 400px;
+}
+
+#invalidInput {
+    text-align: center;
+    color: darkred;
 }

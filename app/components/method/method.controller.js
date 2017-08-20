@@ -7,19 +7,40 @@ myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', f
             methodName: methodName
         });
     }
-    $scope.textInput = '';
     $scope.methodModel = MethodService.getMethodModel();
+    $scope.checkValue = function(value) {
+        var inputs;
+        try {
+            eval('inputs=' + value);
+        } catch (err) {
+            inputs = value;
+        }
+        return inputs;
+    }
     $scope.callMethod = function() {
-            var inputs;
-            eval('inputs=' + $scope.textInput);
-            var outputResult = myLodash[$scope.methodModel.name](inputs);
+            var inputs, outputResult;
+            $scope.invalidInput = false;
+            if ($scope.methodModel.name === 'Includes') {
+                $scope.collection = $scope.checkValue(document.getElementById('collection').value);
+                $scope.value = $scope.checkValue(document.getElementById('value').value);
+                $scope.index = $scope.checkValue(document.getElementById('index').value);
+                outputResult = myLodash[$scope.methodModel.name]($scope.collection, $scope.value, $scope.index);
+            } else if ($scope.methodModel.name === 'Samplesize') {
+                $scope.collection = $scope.checkValue(document.getElementById('collection').value);
+                $scope.value = $scope.checkValue(document.getElementById('value').value);
+                outputResult = myLodash[$scope.methodModel.name]($scope.collection, $scope.value);
+            } else {
+                $scope.collection = $scope.checkValue(document.getElementById('myTextarea').value);
+                outputResult = myLodash[$scope.methodModel.name]($scope.collection);
+            }
             $scope.myInputs = inputs;
             $scope.outputResult = outputResult;
+            if (outputResult === undefined) {
+                $scope.invalidInput = true;
+            }
             $scope.showChart();
         }
-        // to disable send button
-    $scope.disableSend = null;
-    // Static Data for methods and their description
+        // Static Data for methods and their description
     $scope.methods = [{
             name: 'Sample',
             description: 'Gets a random element from collection.',
@@ -67,17 +88,6 @@ myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', f
                                     rightArrow = ['M', 0, 0, 'L', 100, 0, 'L', 95, 5, 'M', 100, 0, 'L', 95, -5],
                                     leftArrow = ['M', 100, 0, 'L', 0, 0, 'L', 5, 5, 'M', 0, 0, 'L', 5, -5];
 
-
-
-                                // Separator, client from service
-                                /* ren.path(['M', 200, 40, 'L', 400, 330])
-                                    .attr({
-                                        'stroke-width': 2,
-                                        stroke: 'silver',
-                                        dashstyle: 'dash'
-                                    })
-                                    .add(); */
-
                                 // Headers
                                 ren.label('Input', 100, 40)
                                     .css({
@@ -90,8 +100,8 @@ myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', f
                                     })
                                     .add();
 
-                                // SaaS client label
-                                ren.label($scope.myInputs, 50, 82)
+                                // myInputs label
+                                ren.label($scope.collection, 50, 82)
                                     .attr({
                                         fill: colors[0],
                                         r: 5
@@ -102,7 +112,6 @@ myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', f
                                     .add()
                                     .shadow(true);
 
-                                // Arrow from SaaS client to Phantom JS
                                 ren.path(rightArrow)
                                     .attr({
                                         'stroke-width': 2,
@@ -141,6 +150,8 @@ myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', f
 
 
                 });
+            } else {
+                Highcharts.chart('chartContainer', {}).destroy();
             }
         }
         // Listener for event broadcasted and make a model to render in view

@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Wed Feb 08 2017 15:35:58 GMT-0300 (ART)
+var webpackConfig = require('./webpack.config.js');
 
 module.exports = function(config) {
     config.set({
@@ -30,6 +31,7 @@ module.exports = function(config) {
         ],
 
 
+
         // list of files to exclude
         exclude: [],
 
@@ -37,9 +39,10 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            './app/**/!(*test).js': ['coverage']
+            './app/**/!(*test).js': ['webpack']
         },
 
+        webpack: webpackConfig,
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
