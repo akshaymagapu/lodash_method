@@ -52,7 +52,6 @@ var path = {
 
 gulp.task('webpack', [], function() {
     return gulp.src(path.ALL) // gulp looks for all source files under specified path
-        .pipe(addStream.obj(prepareTemplates()))
         .pipe(sourcemaps.init()) // creates a source map which would be very helpful for debugging by maintaining the actual source code structure
         .pipe(stream(webpackConfig)) // blend in the webpack config into the source files
         .pipe(uglify()) // minifies the code for better compression
@@ -203,4 +202,4 @@ gulp.task('minifyjs', ['useref', 'templatecache'], function() {
         .pipe(gulp.dest('dist/js/'));
 });
 
-gulp.task('build', ['minifyjs'], function() {});
+gulp.task('build', ['webpack', 'minifyjs'], function() {});

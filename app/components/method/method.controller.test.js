@@ -12,7 +12,7 @@ describe('method', function() {
         $document = _$document_;
         controller = methodController('methodController', { $scope: scope, 'methodService': MethodService });
     }));
-    // All test scenarios covered in below test cases
+    // test scenarios covered in below test cases
     it('should check methods property is defined', function() {
         expect(scope.methods).toBeDefined();
         expect(scope.methods.length).toBe(5);
@@ -35,44 +35,63 @@ describe('method', function() {
     });
 
 
-    it('should call a method based on input', function() {
+    it('should call method based on input', function() {
         scope.methodModel.name = 'Sample';
-        scope.collection = [1, 2, 3];
-        spyOn(document, "getElementById").and.callFake(function() {
-            return {
-                value: '[1, 2, 3]'
-            }
-        });
-        spyOn(scope, 'checkValue').and.stub();
+        scope.customInputs.methodInput = '[1,2,3]';
         spyOn(scope, 'showChart').and.stub();
         scope.callMethod();
-        expect(scope.checkValue).toHaveBeenCalled();
+        expect(scope.showChart).toHaveBeenCalled();
     });
 
-    it('should call a sample method based on input and expect output', function() {
+    it('should call sample method based on input and expect output', function() {
         scope.methodModel.name = 'Sample';
-        scope.collection = [1, 2, 3];
-        spyOn(document, "getElementById").and.callFake(function() {
-            return {
-                value: '[1, 2, 3]'
-            }
-        });
-        spyOn(scope, 'checkValue').and.stub();
+        scope.customInputs.methodInput = '[1,2,3]';
         spyOn(scope, 'showChart').and.stub();
         scope.callMethod();
-        expect(scope.checkValue).toHaveBeenCalled();
+        expect(scope.outputResult.toString().length).toBe(1);
     });
 
-    it('should call a size method based on input and expect output', function() {
+    it('should call size method based on input and expect output', function() {
         scope.methodModel.name = 'Size';
-        scope.collection = [1, 2, 3];
-        spyOn(document, "getElementById").and.callFake(function() {
-            return {
-                value: '[1, 2, 3]'
-            }
-        });
+        scope.customInputs.methodInput = '[1,2,3]';
         spyOn(scope, 'showChart').and.stub();
         scope.callMethod();
         expect(scope.outputResult).toBe(3);
+    });
+
+    it('should call Samplesize method based on input and expect output size', function() {
+        scope.methodModel.name = 'Samplesize';
+        scope.customInputs.collection = '[1,2,3]';
+        scope.customInputs.value = '2';
+        spyOn(scope, 'showChart').and.stub();
+        scope.callMethod();
+        expect(scope.outputResult.length).toBe(2);
+    });
+
+    it('should call Samplesize method based on input and expect output to be desired length', function() {
+        scope.methodModel.name = 'Samplesize';
+        scope.customInputs.collection = '[1,2,3]';
+        scope.customInputs.value = '2';
+        spyOn(scope, 'showChart').and.stub();
+        scope.callMethod();
+        expect(scope.outputResult.length).toBe(2);
+    });
+
+    it('should call Shuffle method based on input and expect output to be desired length', function() {
+        scope.methodModel.name = 'Shuffle';
+        scope.customInputs.methodInput = '[1,2,3]';
+        spyOn(scope, 'showChart').and.stub();
+        scope.callMethod();
+        expect(scope.outputResult.length).toBe(3);
+    });
+
+    it('should call Includes method based on input and expect output to be boolean', function() {
+        scope.methodModel.name = 'Includes';
+        scope.customInputs.collection = '[1,2,3]';
+        scope.customInputs.value = '2';
+        scope.customInputs.index = '0';
+        spyOn(scope, 'showChart').and.stub();
+        scope.callMethod();
+        expect(scope.outputResult).toBe(true);
     });
 });

@@ -8,16 +8,16 @@
     </div>
     <div>
         <div ng-if="!(methodModel.name==='Includes' || methodModel.name==='Samplesize')" class="form-group">
-            <textarea class="form-control" id="myTextarea" placeholder="Enter input" rows="5"></textarea>
+            <textarea class="form-control" id="myTextarea" name="myTextarea" ng-model="customInputs.methodInput" placeholder="Enter input" rows="5"></textarea>
         </div>
         <div ng-if="(methodModel.name==='Includes' || methodModel.name==='Samplesize')" class="form-group" id="customInputBox">
             <label for="inputsm">collection</label>
-            <input class="form-control input-sm" id="collection" type="text">
+            <input class="form-control input-sm" name="collection" ng-model="customInputs.collection" id="collection" type="text">
             <label for="inputsm">value</label>
-            <input class="form-control input-sm" id="value" type="text">
+            <input class="form-control input-sm" name="value" ng-model="customInputs.value" id="value" type="text">
             <div ng-if="(methodModel.name==='Includes')">
                 <label for="inputsm">index</label>
-                <input class="form-control input-sm" id="index" type="text">
+                <input class="form-control input-sm" name="index" ng-model="customInputs.index" id="index" type="text">
             </div>
         </div>
         <div ng-if="invalidInput" id="invalidInput">

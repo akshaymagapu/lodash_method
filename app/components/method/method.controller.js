@@ -1,36 +1,41 @@
 var myApp = angular.module('LodashImplementation');
 myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', function($rootScope, $scope, MethodService) {
-    // Getting method name and executing method
+    // Getting method name and broadcasting method
     var methodName = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
     if (methodName) {
         $rootScope.$broadcast('method-changed', {
             methodName: methodName
         });
     }
+    // getting methodModel to render in view (used service just for showing a feature can be done without it)
     $scope.methodModel = MethodService.getMethodModel();
+    // checks value and evaluates it whether it is an array/object/string
     $scope.checkValue = function(value) {
-        var inputs;
-        try {
-            eval('inputs=' + value);
-        } catch (err) {
-            inputs = value;
+            var inputs;
+            try {
+                eval('inputs=' + value);
+            } catch (err) {
+                inputs = value;
+            }
+            return inputs;
         }
-        return inputs;
-    }
+        // ng-model object
+    $scope.customInputs = {};
+    // When user submits inputs callMethod will execute and provide output
     $scope.callMethod = function() {
             var inputs, outputResult;
             $scope.invalidInput = false;
             if ($scope.methodModel.name === 'Includes') {
-                $scope.collection = $scope.checkValue(document.getElementById('collection').value);
-                $scope.value = $scope.checkValue(document.getElementById('value').value);
-                $scope.index = $scope.checkValue(document.getElementById('index').value);
+                $scope.collection = $scope.checkValue($scope.customInputs.collection);
+                $scope.value = $scope.checkValue($scope.customInputs.value);
+                $scope.index = $scope.checkValue($scope.customInputs.index);
                 outputResult = myLodash[$scope.methodModel.name]($scope.collection, $scope.value, $scope.index);
             } else if ($scope.methodModel.name === 'Samplesize') {
-                $scope.collection = $scope.checkValue(document.getElementById('collection').value);
-                $scope.value = $scope.checkValue(document.getElementById('value').value);
+                $scope.collection = $scope.checkValue($scope.customInputs.collection);
+                $scope.value = $scope.checkValue($scope.customInputs.value);
                 outputResult = myLodash[$scope.methodModel.name]($scope.collection, $scope.value);
             } else {
-                $scope.collection = $scope.checkValue(document.getElementById('myTextarea').value);
+                $scope.collection = $scope.checkValue($scope.customInputs.methodInput);
                 outputResult = myLodash[$scope.methodModel.name]($scope.collection);
             }
             $scope.myInputs = inputs;
@@ -101,7 +106,7 @@ myApp.controller('methodController', ['$rootScope', '$scope', 'methodService', f
                                     .add();
 
                                 // myInputs label
-                                ren.label($scope.collection, 50, 82)
+                                ren.label(($scope.customInputs.methodInput) ? $scope.customInputs.methodInput : $scope.customInputs.collection, 50, 82)
                                     .attr({
                                         fill: colors[0],
                                         r: 5
